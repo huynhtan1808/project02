@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@chakra-ui/core';
 
 import { Table, Tr, Th } from './Table';
-import FeedbackRow from './FeedbackRow';
+//import FeedbackRow from './FeedbackRow';
 
 const FeedbackTable = (props) => {
   return (

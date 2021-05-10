@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import useSWR, { mutate } from 'swr';
+import { mutate } from 'swr';
 import {
   Modal,
   ModalOverlay,
@@ -20,13 +20,13 @@ import { createSite } from '@/lib/db';
 import { useAuth } from '@/lib/auth';
 import { database } from 'firebase-admin';
 import fetcher from '@/utils/fetcher';
+import sites from 'pages/api/sites';
 
 const AddSiteModal = ({ children }) => {
   const toast = useToast();
   const auth = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register } = useForm();
-  const { data } = useSWR('/api/sites', fetcher);
 
   const onCreateSite = ({ name, url }) => {
     const newSite = {
@@ -44,7 +44,13 @@ const AddSiteModal = ({ children }) => {
       duration: 5000,
       isClosable: true,
     });
-    mutate('/api/sites', { sites: [...data.sites, newSite ]});
+    mutate('/api/sites', async sites => {
+      console.log(sites);
+      return {
+        sites: [...data.sites, newSite] };  
+      },
+      false
+    );
     onClose();
   } 
 
